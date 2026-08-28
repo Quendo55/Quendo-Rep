@@ -1,0 +1,1370 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Erzähl mal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%238a3a4e%22/%3E%3Cpath%20d%3D%22M8%209h16M8%2015h16M8%2021h10%22%20stroke%3D%22%23f6f1e7%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22/%3E%3C/svg%3E" type="image/svg+xml">
+<meta name="theme-color" content="#8a3a4e">
+<meta name="description" content="Fragen an Oma und Opa — beantwortet als Video, Tonaufnahme, Text oder Foto.">
+
+<style>
+/* =============================================================
+   1. FARBEN UND GRÖSSEN
+   Alles, was Farbe oder Größe hat, steht hier. Wer etwas ändern
+   will, ändert nur diesen Block.
+   ============================================================= */
+:root {
+  --leinen:     #f6f1e7;   /* Grund: warm, kein grelles Weiß */
+  --karte:      #fffdf8;
+  --tinte:      #241f1a;   /* Text: sehr dunkles Braun statt Schwarz */
+  --gedaempft:  #5b5148;
+  --linie:      #ddd2c0;
+  --burgund:    #8a3a4e;   /* das Wichtige */
+  --burgund-tief:#6f2c3e;
+  --salbei:     #4d6350;   /* das Erledigte */
+  --gold:       #9c7420;
+  --schatten:   rgba(60, 45, 30, .16);
+
+  --gross:      21px;      /* Grundschrift */
+  --knopf-hoch: 68px;      /* Mindesthöhe für alles zum Antippen */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --leinen:      #1b1815;
+    --karte:       #262119;
+    --tinte:       #f4ece0;
+    --gedaempft:   #bdb0a0;
+    --linie:       #3d352b;
+    --burgund:     #e4899b;
+    --burgund-tief:#f0a5b4;
+    --salbei:      #9dbfa1;
+    --gold:        #e0b95f;
+    --schatten:    rgba(0, 0, 0, .5);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 0 48px;
+  background: var(--leinen);
+  color: var(--tinte);
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: var(--gross);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, .frage-gross {
+  font-family: Georgia, "Times New Roman", "Noto Serif", serif;
+  font-weight: 700;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+h1 { font-size: 38px; margin: 0 0 8px; }
+h2 { font-size: 28px; margin: 0 0 18px; }
+
+.seite { max-width: 620px; margin: 0 auto; padding: 0 18px; }
+
+/* --- Kopfleiste mit Zurück-Knopf --------------------------- */
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--leinen);
+  border-bottom: 2px solid var(--linie);
+  padding: 10px 0;
+  margin-bottom: 26px;
+}
+.kopf .seite { display: flex; align-items: center; gap: 12px; }
+
+.zurueck {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 18px 8px 12px;
+  font-size: 20px;
+  color: var(--tinte);
+  background: transparent;
+  border: 2px solid var(--linie);
+  border-radius: 14px;
+}
+.zurueck:hover { background: var(--karte); }
+
+.kopf-titel { font-size: 19px; color: var(--gedaempft); }
+
+/* --- Knöpfe ------------------------------------------------- */
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+}
+button:focus-visible, a:focus-visible, textarea:focus-visible {
+  outline: 4px solid var(--burgund);
+  outline-offset: 3px;
+}
+
+.gross-knopf {
+  display: block;
+  width: 100%;
+  min-height: var(--knopf-hoch);
+  padding: 18px 24px;
+  font-size: 23px;
+  font-weight: 600;
+  color: #fffdf8;
+  background: var(--burgund);
+  box-shadow: 0 3px 10px var(--schatten);
+}
+.gross-knopf:hover { background: var(--burgund-tief); }
+@media (prefers-color-scheme: dark) {
+  .gross-knopf { color: #241f1a; }
+}
+
+.still-knopf {
+  display: block;
+  width: 100%;
+  min-height: var(--knopf-hoch);
+  padding: 16px 24px;
+  font-size: 21px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+}
+.still-knopf:hover { border-color: var(--burgund); }
+
+.reihe { display: grid; gap: 14px; }
+
+/* --- Startseite --------------------------------------------- */
+.willkommen { padding-top: 40px; text-align: center; }
+.willkommen p { font-size: 22px; color: var(--gedaempft); margin: 0 auto 34px; max-width: 30ch; }
+
+.zierlinie {
+  width: 90px; height: 5px;
+  margin: 22px auto 26px;
+  border-radius: 3px;
+  background: var(--burgund);
+}
+
+/* --- Themen und Fragen -------------------------------------- */
+.thema-karte {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-left: 8px solid var(--burgund);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--schatten);
+}
+.thema-karte:hover { border-color: var(--burgund); border-left-color: var(--burgund); }
+.thema-karte strong { display: block; font-size: 24px; font-family: Georgia, serif; }
+.thema-karte span   { color: var(--gedaempft); font-size: 18px; }
+
+.frage-karte {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  font-size: 21px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 16px;
+}
+.frage-karte:hover { border-color: var(--burgund); }
+.frage-karte.beantwortet { border-color: var(--salbei); }
+
+.haken {
+  flex: none;
+  width: 30px; height: 30px;
+  color: var(--salbei);
+}
+.haken.leer { color: var(--linie); }
+
+/* --- Eine Frage --------------------------------------------- */
+.frage-gross {
+  font-size: 30px;
+  margin: 10px 0 30px;
+}
+
+.art-knopf {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  text-align: left;
+  min-height: 88px;
+  padding: 18px 22px;
+  font-size: 22px;
+  font-weight: 600;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--schatten);
+}
+.art-knopf:hover { border-color: var(--burgund); }
+.art-knopf svg { flex: none; width: 40px; height: 40px; color: var(--burgund); }
+.art-knopf small { display: block; font-weight: 400; font-size: 17px; color: var(--gedaempft); }
+
+/* --- Aufnahme ------------------------------------------------ */
+.buehne {
+  position: relative;
+  background: #14110e;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  aspect-ratio: 3 / 4;
+}
+.buehne video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.tonbuehne {
+  display: grid;
+  place-items: center;
+  gap: 14px;
+  padding: 44px 20px;
+  margin-bottom: 20px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 18px;
+}
+.tonbuehne svg { width: 68px; height: 68px; color: var(--burgund); }
+
+.uhr {
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.uhr .punkt {
+  display: inline-block;
+  width: 16px; height: 16px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--burgund);
+  vertical-align: -1px;
+}
+.laeuft .punkt { animation: pochen 1.4s ease-in-out infinite; }
+@keyframes pochen { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .laeuft .punkt { animation: none; } }
+
+textarea {
+  width: 100%;
+  min-height: 300px;
+  padding: 18px;
+  font: inherit;
+  font-size: 21px;
+  line-height: 1.6;
+  color: var(--tinte);
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 16px;
+  resize: vertical;
+}
+textarea:focus { outline: none; border-color: var(--burgund); }
+
+.vorschau img, .vorschau video { width: 100%; border-radius: 16px; display: block; }
+.vorschau audio { width: 100%; margin: 10px 0; }
+
+/* --- Meine Geschichten --------------------------------------- */
+.eintrag {
+  padding: 20px 22px;
+  margin-bottom: 14px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 16px;
+}
+.eintrag .frage { font-family: Georgia, serif; font-size: 22px; font-weight: 700; }
+.eintrag .wann  { color: var(--gedaempft); font-size: 17px; margin-bottom: 12px; }
+.eintrag p.text { white-space: pre-wrap; margin: 0 0 12px; }
+.eintrag .werkzeuge { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.eintrag .werkzeuge button {
+  min-height: 52px;
+  padding: 10px 18px;
+  font-size: 18px;
+  border: 2px solid var(--linie);
+  border-radius: 12px;
+}
+.eintrag .werkzeuge button:hover { border-color: var(--burgund); }
+
+.hinweis {
+  padding: 20px 22px;
+  margin-bottom: 22px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-left: 8px solid var(--gold);
+  border-radius: 16px;
+  font-size: 19px;
+}
+
+.leer-text {
+  padding: 44px 22px;
+  text-align: center;
+  color: var(--gedaempft);
+  border: 3px dashed var(--linie);
+  border-radius: 16px;
+}
+
+.versteckt { display: none !important; }
+</style>
+</head>
+
+<body>
+
+<div class="kopf versteckt" id="kopf">
+  <div class="seite">
+    <button class="zurueck" id="zurueck-knopf">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      Zurück
+    </button>
+    <span class="kopf-titel" id="kopf-titel"></span>
+  </div>
+</div>
+
+<main class="seite" id="buehne"></main>
+
+<script>
+"use strict";
+
+/* =============================================================
+   ERZÄHL MAL — Fragen an Oma und Opa
+
+   Aufbau in drei Teilen:
+     1. Die Fragen (weiter unten als einfache Liste)
+     2. Die Ablage — wo Antworten gespeichert werden
+     3. Die Bildschirme — jeder eine Funktion, die zeichnet
+
+   Es ist immer genau ein Bildschirm sichtbar. `zeige(...)`
+   wechselt ihn. Mehr Regeln gibt es nicht.
+   ============================================================= */
+
+const THEMEN = [
+  {
+    name: "Als du klein warst",
+    unter: "Kindheit, Zuhause, die ersten Jahre",
+    fragen: [
+      "Wo bist du aufgewachsen, und wie sah es dort aus?",
+      "Was riecht oder schmeckt heute noch nach deiner Kindheit?",
+      "Womit habt ihr gespielt, als es noch keine Bildschirme gab?",
+      "Wer wohnte alles mit im Haus?",
+      "Wovor hattest du als Kind Angst?",
+      "Was war dein schönster Geburtstag?"
+    ]
+  },
+  {
+    name: "Schule und Lehrjahre",
+    unter: "Lernen, Lehrer, der erste Beruf",
+    fragen: [
+      "Wie war dein erster Schultag?",
+      "An welchen Lehrer erinnerst du dich noch heute, und warum?",
+      "Was hast du gern gelernt, was gar nicht?",
+      "Wie bist du zu deinem Beruf gekommen?",
+      "Was war dein erstes selbst verdientes Geld, und was hast du dafür gekauft?"
+    ]
+  },
+  {
+    name: "Junge Jahre",
+    unter: "Freunde, Mut, das erste Mal allein",
+    fragen: [
+      "Wer war dein bester Freund oder deine beste Freundin?",
+      "Welche Musik habt ihr gehört?",
+      "Was hast du getan, wovon deine Eltern nichts wissen durften?",
+      "Wann bist du zum ersten Mal allein verreist?",
+      "Was hast du damals angezogen, wenn du ausgehen wolltest?"
+    ]
+  },
+  {
+    name: "Liebe und Familie",
+    unter: "Wie alles zusammenkam",
+    fragen: [
+      "Wie hast du Opa oder Oma kennengelernt?",
+      "Woran hast du gemerkt, dass es die oder der Richtige ist?",
+      "Wie war der Tag, an dem dein erstes Kind kam?",
+      "Was hat dich am Elternsein überrascht?",
+      "Was möchtest du deinen Enkeln über die Liebe sagen?"
+    ]
+  },
+  {
+    name: "Arbeit und Alltag",
+    unter: "Wie ein normaler Tag aussah",
+    fragen: [
+      "Wie sah ein ganz gewöhnlicher Tag bei dir aus?",
+      "Was war die schwerste Arbeit, die du je gemacht hast?",
+      "Worauf in deinem Berufsleben bist du stolz?",
+      "Was habt ihr gekocht, wenn wenig Geld da war?",
+      "Wie habt ihr Feste gefeiert?"
+    ]
+  },
+  {
+    name: "Wie die Zeit sich änderte",
+    unter: "Was du erlebt und gesehen hast",
+    fragen: [
+      "Welches Ereignis in der Welt hat dich am meisten bewegt?",
+      "Woran erinnerst du dich, als das erste Fernsehgerät ins Haus kam?",
+      "Was war früher besser, was ist heute besser?",
+      "Was würde dein zwanzigjähriges Ich über die Welt von heute sagen?"
+    ]
+  },
+  {
+    name: "Was du weitergeben willst",
+    unter: "Rat, Werte, das Wichtige",
+    fragen: [
+      "Welcher Satz hat dich durchs Leben getragen?",
+      "Wofür bist du dankbar?",
+      "Was hast du gelernt, das in keinem Buch steht?",
+      "Was wünschst du dir für uns?",
+      "Woran sollen wir dich denken, wenn wir dich vermissen?"
+    ]
+  }
+];
+
+/* Jede Frage bekommt eine feste Nummer, damit gespeicherte
+   Antworten sie später wiederfinden. */
+const FRAGEN = [];
+THEMEN.forEach(function (thema, ti) {
+  thema.fragen.forEach(function (text, fi) {
+    FRAGEN.push({ id: ti + "-" + fi, thema: thema.name, text: text });
+  });
+});
+
+function frageMit(id) {
+  return FRAGEN.find(function (f) { return f.id === id; });
+}
+
+
+/* =============================================================
+   DIE ABLAGE
+   Antworten können groß sein — ein Video hat schnell viele
+   Megabyte. Dafür gibt es im Browser die IndexedDB. Sie liegt
+   auf dem Gerät; nichts geht ins Internet.
+   ============================================================= */
+
+const ABLAGE = "erzaehl-mal";
+let antworten = [];       // im Speicher gehaltene Kopie
+
+function ablageOeffnen() {
+  return new Promise(function (ok, fehler) {
+    const anfrage = indexedDB.open(ABLAGE, 1);
+    anfrage.onupgradeneeded = function () {
+      anfrage.result.createObjectStore("antworten", { keyPath: "id" });
+    };
+    anfrage.onsuccess = function () { ok(anfrage.result); };
+    anfrage.onerror   = function () { fehler(anfrage.error); };
+  });
+}
+
+async function alleLaden() {
+  try {
+    const db = await ablageOeffnen();
+    antworten = await new Promise(function (ok, fehler) {
+      const a = db.transaction("antworten").objectStore("antworten").getAll();
+      a.onsuccess = function () { ok(a.result || []); };
+      a.onerror   = function () { fehler(a.error); };
+    });
+  } catch (e) {
+    antworten = [];
+  }
+}
+
+async function sichern(eintrag) {
+  const db = await ablageOeffnen();
+  await new Promise(function (ok, fehler) {
+    const t = db.transaction("antworten", "readwrite");
+    t.objectStore("antworten").put(eintrag);
+    t.oncomplete = ok;
+    t.onerror    = function () { fehler(t.error); };
+  });
+  antworten = antworten.filter(function (a) { return a.id !== eintrag.id; });
+  antworten.push(eintrag);
+}
+
+async function entfernen(id) {
+  const db = await ablageOeffnen();
+  await new Promise(function (ok, fehler) {
+    const t = db.transaction("antworten", "readwrite");
+    t.objectStore("antworten").delete(id);
+    t.oncomplete = ok;
+    t.onerror    = function () { fehler(t.error); };
+  });
+  antworten = antworten.filter(function (a) { return a.id !== id; });
+}
+
+function antwortenZu(frageId) {
+  return antworten.filter(function (a) { return a.frageId === frageId; });
+}
+
+function datumText(zeit) {
+  return new Date(zeit).toLocaleDateString("de-DE",
+    { day: "numeric", month: "long", year: "numeric" });
+}
+
+
+/* =============================================================
+   BILDSCHIRME
+   ============================================================= */
+
+const buehne     = document.getElementById("buehne");
+const kopf       = document.getElementById("kopf");
+const kopfTitel  = document.getElementById("kopf-titel");
+let zurueckZu    = null;      // Funktion, die der Zurück-Knopf aufruft
+
+document.getElementById("zurueck-knopf").onclick = function () {
+  aufraeumen();
+  if (zurueckZu) zurueckZu();
+};
+
+function zeige(titel, zurueck) {
+  buehne.replaceChildren();
+  window.scrollTo(0, 0);
+  zurueckZu = zurueck || null;
+  kopf.classList.toggle("versteckt", !zurueck);
+  kopfTitel.textContent = titel || "";
+}
+
+/* Kleine Helfer, damit die Bildschirme kurz bleiben */
+function el(art, klasse, text) {
+  const k = document.createElement(art);
+  if (klasse) k.className = klasse;
+  if (text !== undefined) k.textContent = text;
+  return k;
+}
+
+const SYMBOLE = {
+  video: '<path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>',
+  ton:   '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>',
+  text:  '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>',
+  foto:  '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+  haken: '<path d="M20 6L9 17l-5-5"/>'
+};
+
+function symbol(name, klasse) {
+  const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  s.setAttribute("viewBox", "0 0 24 24");
+  s.setAttribute("fill", "none");
+  s.setAttribute("stroke", "currentColor");
+  s.setAttribute("stroke-width", "2");
+  s.setAttribute("stroke-linecap", "round");
+  s.setAttribute("stroke-linejoin", "round");
+  s.setAttribute("aria-hidden", "true");
+  if (klasse) s.setAttribute("class", klasse);
+  s.innerHTML = SYMBOLE[name];
+  return s;
+}
+
+
+/* ---------- Startseite ---------------------------------------- */
+
+function startseite() {
+  zeige("", null);
+
+  const w = el("div", "willkommen");
+  const h = el("h1", null, "Erzähl mal");
+  const z = el("div", "zierlinie");
+  const p = el("p", null, "Wir haben ein paar Fragen an dich. Antworte, wie es dir am liebsten ist — sprechen, filmen, schreiben oder ein Bild dazulegen.");
+
+  const los = el("button", "gross-knopf", "Eine Frage aussuchen");
+  los.onclick = themenliste;
+
+  const meine = el("button", "still-knopf");
+  meine.style.marginTop = "16px";
+  meine.textContent = antworten.length === 0
+    ? "Meine Geschichten"
+    : "Meine Geschichten (" + antworten.length + ")";
+  meine.onclick = function () { geschichten(); };
+
+  const sichern = el("button", "still-knopf", "Sichern und weitergeben");
+  sichern.style.marginTop = "16px";
+  sichern.onclick = function () { sicherung(); };
+
+  w.append(h, z, p, los, meine, sichern);
+  buehne.append(w);
+}
+
+
+/* ---------- Themen -------------------------------------------- */
+
+function themenliste() {
+  zeige("Fragen", startseite);
+  buehne.append(el("h2", null, "Worüber möchtest du erzählen?"));
+
+  THEMEN.forEach(function (thema, ti) {
+    const anzahl = thema.fragen.filter(function (_, fi) {
+      return antwortenZu(ti + "-" + fi).length > 0;
+    }).length;
+
+    const k = el("button", "thema-karte");
+    k.append(el("strong", null, thema.name));
+    k.append(el("span", null, anzahl > 0
+      ? thema.unter + " · " + anzahl + " von " + thema.fragen.length + " erzählt"
+      : thema.unter));
+    k.onclick = function () { fragenliste(ti); };
+    buehne.append(k);
+  });
+}
+
+
+/* ---------- Fragen eines Themas -------------------------------- */
+
+function fragenliste(ti) {
+  const thema = THEMEN[ti];
+  zeige(thema.name, themenliste);
+  buehne.append(el("h2", null, thema.name));
+
+  thema.fragen.forEach(function (text, fi) {
+    const id = ti + "-" + fi;
+    const fertig = antwortenZu(id).length > 0;
+
+    const k = el("button", "frage-karte" + (fertig ? " beantwortet" : ""));
+    k.append(symbol("haken", "haken" + (fertig ? "" : " leer")));
+    k.append(el("span", null, text));
+    k.onclick = function () { frageZeigen(id); };
+    buehne.append(k);
+  });
+}
+
+
+/* ---------- Eine Frage mit den vier Wegen ---------------------- */
+
+function frageZeigen(id) {
+  const frage = frageMit(id);
+  const ti = Number(id.split("-")[0]);
+  zeige(frage.thema, function () { fragenliste(ti); });
+
+  buehne.append(el("p", "frage-gross", frage.text));
+
+  const wege = [
+    ["video", "Video aufnehmen", "Dich sehen und hören"],
+    ["ton",   "Erzählen",        "Nur deine Stimme"],
+    ["text",  "Schreiben",       "Mit der Tastatur"],
+    ["foto",  "Foto dazulegen",  "Aus deinen Bildern"]
+  ];
+
+  const reihe = el("div", "reihe");
+  wege.forEach(function (w) {
+    const k = el("button", "art-knopf");
+    k.append(symbol(w[0]));
+    const t = el("span");
+    t.append(document.createTextNode(w[1]));
+    t.append(el("small", null, w[2]));
+    k.append(t);
+    k.onclick = function () {
+      if (w[0] === "text") schreiben(id);
+      else if (w[0] === "foto") fotoWaehlen(id);
+      else aufnehmen(id, w[0]);
+    };
+    reihe.append(k);
+  });
+  buehne.append(reihe);
+
+  const vorhanden = antwortenZu(id);
+  if (vorhanden.length > 0) {
+    const k = el("button", "still-knopf",
+      vorhanden.length === 1 ? "Deine Antwort ansehen" : "Deine " + vorhanden.length + " Antworten ansehen");
+    k.style.marginTop = "22px";
+    k.onclick = function () { geschichten(id); };
+    buehne.append(k);
+  }
+}
+
+
+/* ---------- Schreiben ------------------------------------------ */
+
+function schreiben(id) {
+  const frage = frageMit(id);
+  zeige("Schreiben", function () { frageZeigen(id); });
+
+  buehne.append(el("p", "frage-gross", frage.text));
+
+  const feld = el("textarea");
+  feld.setAttribute("aria-label", "Deine Antwort");
+  feld.placeholder = "Schreib einfach los. Es muss nichts perfekt sein.";
+  buehne.append(feld);
+
+  const reihe = el("div", "reihe");
+  reihe.style.marginTop = "18px";
+
+  const behalten = el("button", "gross-knopf", "Behalten");
+  behalten.onclick = async function () {
+    const text = feld.value.trim();
+    if (text === "") { hinweisZeigen("Da steht noch nichts. Schreib erst etwas."); return; }
+    await sichern({
+      id: "a" + Date.now(), frageId: id, frageText: frage.text,
+      art: "text", text: text, wann: Date.now()
+    });
+    fertigMeldung(id);
+  };
+
+  reihe.append(behalten);
+  buehne.append(reihe);
+  feld.focus();
+}
+
+
+/* ---------- Foto ----------------------------------------------- */
+
+function fotoWaehlen(id) {
+  const frage = frageMit(id);
+  zeige("Foto", function () { frageZeigen(id); });
+  buehne.append(el("p", "frage-gross", frage.text));
+
+  const feld = document.createElement("input");
+  feld.type = "file";
+  feld.accept = "image/*";
+  feld.className = "versteckt";
+  buehne.append(feld);
+
+  const waehlen = el("button", "gross-knopf", "Bild aussuchen");
+  waehlen.onclick = function () { feld.click(); };
+  buehne.append(waehlen);
+
+  const vorschau = el("div", "vorschau");
+  vorschau.style.marginTop = "20px";
+  buehne.append(vorschau);
+
+  feld.onchange = function () {
+    const datei = feld.files && feld.files[0];
+    if (!datei) return;
+
+    vorschau.replaceChildren();
+    const bild = document.createElement("img");
+    bild.alt = "Dein ausgewähltes Bild";
+    bild.src = URL.createObjectURL(datei);
+    vorschau.append(bild);
+
+    const behalten = el("button", "gross-knopf", "Dieses Bild behalten");
+    behalten.style.marginTop = "18px";
+    behalten.onclick = async function () {
+      await sichern({
+        id: "a" + Date.now(), frageId: id, frageText: frage.text,
+        art: "foto", blob: datei, typ: datei.type, wann: Date.now()
+      });
+      fertigMeldung(id);
+    };
+    vorschau.append(behalten);
+  };
+}
+
+
+/* ---------- Video und Ton -------------------------------------- */
+
+let laufendesGeraet = null;   // aktiver Kamera-/Mikrofonzugriff
+let rekorder = null;
+let uhrLaeuft = null;
+
+function aufraeumen() {
+  if (rekorder && rekorder.state === "recording") rekorder.stop();
+  rekorder = null;
+  if (laufendesGeraet) {
+    laufendesGeraet.getTracks().forEach(function (spur) { spur.stop(); });
+    laufendesGeraet = null;
+  }
+  clearInterval(uhrLaeuft);
+}
+
+function typWaehlen(kandidaten) {
+  for (const t of kandidaten) {
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(t)) return t;
+  }
+  return "";
+}
+
+async function aufnehmen(id, art) {
+  const frage = frageMit(id);
+  const istVideo = art === "video";
+  zeige(istVideo ? "Video" : "Erzählen", function () { frageZeigen(id); });
+
+  buehne.append(el("p", "frage-gross", frage.text));
+
+  // Kein Zugriff möglich? Dann ehrlich erklären, warum.
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+    buehne.append(hinweisKarte(
+      "Aufnehmen geht hier nicht",
+      "Dieser Browser lässt keine Aufnahmen zu. Zum Aufnehmen muss die App über eine Internetadresse geöffnet sein, die mit https:// beginnt — als heruntergeladene Datei sperrt der Browser Kamera und Mikrofon. Schreiben und Fotos aussuchen geht trotzdem."));
+    return;
+  }
+
+  const buehnenTeil = el("div", istVideo ? "buehne" : "tonbuehne");
+  let vorschauVideo = null;
+  if (istVideo) {
+    vorschauVideo = document.createElement("video");
+    vorschauVideo.muted = true;
+    vorschauVideo.playsInline = true;
+    vorschauVideo.autoplay = true;
+    buehnenTeil.append(vorschauVideo);
+  } else {
+    buehnenTeil.append(symbol("ton"));
+    buehnenTeil.append(el("span", null, "Sprich einfach los, als würdest du erzählen."));
+  }
+  buehne.append(buehnenTeil);
+
+  const uhr = el("div", "uhr");
+  uhr.append(el("span", "punkt"));
+  uhr.append(document.createTextNode("0:00"));
+  uhr.classList.add("versteckt");
+  buehne.append(uhr);
+
+  const reihe = el("div", "reihe");
+  buehne.append(reihe);
+
+  let strom;
+  try {
+    strom = await navigator.mediaDevices.getUserMedia(
+      istVideo ? { video: { facingMode: "user" }, audio: true } : { audio: true });
+  } catch (e) {
+    buehnenTeil.remove();
+    buehne.append(hinweisKarte(
+      "Kein Zugriff auf " + (istVideo ? "die Kamera" : "das Mikrofon"),
+      "Der Browser hat den Zugriff nicht erlaubt. Meist erscheint dafür oben eine Frage — die musst du mit „Zulassen“ beantworten. Wenn du sie versehentlich weggeklickt hast, lade die Seite neu."));
+    return;
+  }
+
+  laufendesGeraet = strom;
+  if (vorschauVideo) vorschauVideo.srcObject = strom;
+
+  const typ = istVideo
+    ? typWaehlen(["video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm", "video/mp4"])
+    : typWaehlen(["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg"]);
+
+  const teile = [];
+  rekorder = new MediaRecorder(strom, typ ? { mimeType: typ } : undefined);
+  rekorder.ondataavailable = function (e) { if (e.data.size > 0) teile.push(e.data); };
+
+  const start = el("button", "gross-knopf", istVideo ? "Aufnahme starten" : "Aufnahme starten");
+  const stopp = el("button", "gross-knopf", "Fertig");
+  stopp.classList.add("versteckt");
+  reihe.append(start, stopp);
+
+  start.onclick = function () {
+    teile.length = 0;
+    rekorder.start();
+    start.classList.add("versteckt");
+    stopp.classList.remove("versteckt");
+    uhr.classList.remove("versteckt");
+    uhr.classList.add("laeuft");
+
+    const angefangen = Date.now();
+    uhrLaeuft = setInterval(function () {
+      const s = Math.floor((Date.now() - angefangen) / 1000);
+      uhr.lastChild.nodeValue = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    }, 500);
+  };
+
+  stopp.onclick = function () {
+    clearInterval(uhrLaeuft);
+    uhr.classList.remove("laeuft");
+    rekorder.onstop = function () {
+      const stueck = new Blob(teile, { type: rekorder.mimeType || typ });
+      aufraeumen();
+      anhoeren(id, art, stueck);
+    };
+    rekorder.stop();
+  };
+}
+
+/* Nach der Aufnahme: erst anschauen, dann entscheiden. */
+function anhoeren(id, art, stueck) {
+  const frage = frageMit(id);
+  zeige("Ansehen", function () { frageZeigen(id); });
+  buehne.append(el("p", "frage-gross", frage.text));
+
+  const v = el("div", "vorschau");
+  const spieler = document.createElement(art === "video" ? "video" : "audio");
+  spieler.controls = true;
+  spieler.playsInline = true;
+  spieler.src = URL.createObjectURL(stueck);
+  v.append(spieler);
+  buehne.append(v);
+
+  const reihe = el("div", "reihe");
+  reihe.style.marginTop = "20px";
+
+  const behalten = el("button", "gross-knopf", "Behalten");
+  behalten.onclick = async function () {
+    await sichern({
+      id: "a" + Date.now(), frageId: id, frageText: frage.text,
+      art: art, blob: stueck, typ: stueck.type, wann: Date.now()
+    });
+    fertigMeldung(id);
+  };
+
+  const nochmal = el("button", "still-knopf", "Noch einmal aufnehmen");
+  nochmal.onclick = function () { aufnehmen(id, art); };
+
+  reihe.append(behalten, nochmal);
+  buehne.append(reihe);
+}
+
+
+/* ---------- Nach dem Speichern --------------------------------- */
+
+function fertigMeldung(id) {
+  const ti = Number(id.split("-")[0]);
+  zeige("Gespeichert", function () { fragenliste(ti); });
+
+  const w = el("div", "willkommen");
+  w.append(el("h1", null, "Gespeichert"));
+  w.append(el("div", "zierlinie"));
+  w.append(el("p", null, "Deine Antwort ist sicher abgelegt. Möchtest du gleich weitermachen?"));
+
+  const weiter = el("button", "gross-knopf", "Nächste Frage");
+  weiter.onclick = function () { fragenliste(ti); };
+
+  const meine = el("button", "still-knopf", "Meine Geschichten ansehen");
+  meine.style.marginTop = "16px";
+  meine.onclick = function () { geschichten(); };
+
+  w.append(weiter, meine);
+  buehne.append(w);
+}
+
+
+/* ---------- Meine Geschichten ---------------------------------- */
+
+function geschichten(nurFrageId) {
+  // Sicherheitsnetz: als Ereignis-Empfaenger bekaeme die Funktion sonst
+  // das Klick-Ereignis untergeschoben und wuerde alles wegfiltern.
+  if (typeof nurFrageId !== "string") nurFrageId = null;
+
+  zeige("Meine Geschichten", nurFrageId ? function () { frageZeigen(nurFrageId); } : startseite);
+  buehne.append(el("h2", null, "Meine Geschichten"));
+
+  const liste = (nurFrageId ? antwortenZu(nurFrageId) : antworten)
+    .slice().sort(function (a, b) { return b.wann - a.wann; });
+
+  if (liste.length === 0) {
+    buehne.append(el("div", "leer-text", "Hier sammelt sich alles, was du erzählt hast. Noch ist es leer."));
+    return;
+  }
+
+  liste.forEach(function (a) {
+    const k = el("div", "eintrag");
+    k.append(el("div", "frage", a.frageText));
+    k.append(el("div", "wann", datumText(a.wann)));
+
+    if (a.art === "text") {
+      k.append(el("p", "text", a.text));
+    } else if (a.art === "foto") {
+      const bild = document.createElement("img");
+      bild.alt = "Bild zur Frage: " + a.frageText;
+      bild.src = URL.createObjectURL(a.blob);
+      bild.style.borderRadius = "12px";
+      bild.style.width = "100%";
+      k.append(bild);
+    } else {
+      const spieler = document.createElement(a.art === "video" ? "video" : "audio");
+      spieler.controls = true;
+      spieler.playsInline = true;
+      spieler.src = URL.createObjectURL(a.blob);
+      if (a.art === "video") { spieler.style.width = "100%"; spieler.style.borderRadius = "12px"; }
+      else { spieler.style.width = "100%"; }
+      k.append(spieler);
+    }
+
+    const werkzeuge = el("div", "werkzeuge");
+
+    const teilen = el("button", null, "Weitergeben");
+    teilen.onclick = async function () {
+      teilen.disabled = true;
+      const wie = await weitergeben(alsDatei(a, 1), a.frageText);
+      teilen.disabled = false;
+      if (wie === "geladen") hinweisZeigen("Die Datei liegt jetzt bei deinen heruntergeladenen Dateien.");
+    };
+    werkzeuge.append(teilen);
+
+    const weg = el("button", null, "Löschen");
+    weg.onclick = async function () {
+      if (weg.dataset.sicher !== "ja") {
+        weg.dataset.sicher = "ja";
+        weg.textContent = "Wirklich löschen?";
+        setTimeout(function () {
+          weg.dataset.sicher = "";
+          weg.textContent = "Löschen";
+        }, 5000);
+        return;
+      }
+      await entfernen(a.id);
+      geschichten(nurFrageId);
+    };
+    werkzeuge.append(weg);
+    k.append(werkzeuge);
+
+    buehne.append(k);
+  });
+}
+
+
+/* ---------- Kleine Hinweise ------------------------------------ */
+
+function hinweisKarte(titel, text) {
+  const k = el("div", "hinweis");
+  const t = el("strong", null, titel);
+  t.style.display = "block";
+  t.style.fontSize = "22px";
+  k.append(t, document.createTextNode(text));
+  return k;
+}
+
+function hinweisZeigen(text) {
+  const alt = buehne.querySelector(".hinweis");
+  if (alt) alt.remove();
+  const k = el("div", "hinweis", text);
+  buehne.prepend(k);
+  window.scrollTo(0, 0);
+}
+
+
+/* =============================================================
+   SICHERN UND WEITERGEBEN
+
+   Grundsatz: Alles bleibt hier auf dem Gerät. Nichts wandert
+   von selbst irgendwohin. Weitergeben passiert nur, wenn jemand
+   den Knopf drückt — einzeln, oder alles zusammen als Sicherung.
+
+   Die Sicherung ist eine ZIP-Datei. Sie enthält die Aufnahmen
+   als ganz normale Dateien und daneben `daten.json` mit den
+   Fragen und Texten. Auch ohne diese App kommt man also an alles
+   heran: doppelt anklicken, fertig.
+   ============================================================= */
+
+const ENDUNGEN = {
+  "video/webm": "webm", "video/mp4": "mp4", "video/x-matroska": "mkv",
+  "audio/webm": "webm", "audio/mp4": "m4a", "audio/ogg": "ogg", "audio/mpeg": "mp3",
+  "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/heic": "heic"
+};
+
+function endungVon(typ) {
+  if (!typ) return "dat";
+  const rein = typ.split(";")[0].trim();
+  return ENDUNGEN[rein] || rein.split("/")[1] || "dat";
+}
+
+/* Aus „Wo bist du aufgewachsen?“ wird „wo-bist-du-aufgewachsen“ */
+function kurzname(text) {
+  return text.toLowerCase()
+    .replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 40);
+}
+
+function dateiname(eintrag, nummer) {
+  const nr = String(nummer).padStart(2, "0");
+  const endung = eintrag.art === "text" ? "txt" : endungVon(eintrag.typ);
+  return nr + "-" + kurzname(eintrag.frageText) + "." + endung;
+}
+
+function alsDatei(eintrag, nummer) {
+  const name = dateiname(eintrag, nummer);
+  if (eintrag.art === "text") {
+    return new File([eintrag.frageText + "\n\n" + eintrag.text + "\n"], name, { type: "text/plain" });
+  }
+  return new File([eintrag.blob], name, { type: eintrag.typ || eintrag.blob.type });
+}
+
+
+/* ---------- ZIP schreiben und lesen ----------------------------
+   Von Hand, damit die App ohne fremde Bausteine auskommt. Die
+   Dateien werden unverpackt abgelegt (Videos lassen sich ohnehin
+   nicht mehr zusammendrücken).
+   -------------------------------------------------------------- */
+
+const CRC_TABELLE = (function () {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[i] = c >>> 0;
+  }
+  return t;
+})();
+
+function pruefsumme(bytes) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) c = CRC_TABELLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+
+function dosZeit(d) {
+  return { zeit: (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1),
+           datum: ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate() };
+}
+
+async function zipBauen(dateien) {
+  const kodierer = new TextEncoder();
+  const jetzt = dosZeit(new Date());
+  const teile = [];
+  const verzeichnis = [];
+  let versatz = 0;
+
+  for (const d of dateien) {
+    const name = kodierer.encode(d.name);
+    const inhalt = new Uint8Array(await d.blob.arrayBuffer());
+    const crc = pruefsumme(inhalt);
+
+    const kopf = new DataView(new ArrayBuffer(30));
+    kopf.setUint32(0, 0x04034b50, true);
+    kopf.setUint16(4, 20, true);
+    kopf.setUint16(6, 0x0800, true);   // Namen sind UTF-8
+    kopf.setUint16(8, 0, true);        // unverpackt
+    kopf.setUint16(10, jetzt.zeit, true);
+    kopf.setUint16(12, jetzt.datum, true);
+    kopf.setUint32(14, crc, true);
+    kopf.setUint32(18, inhalt.length, true);
+    kopf.setUint32(22, inhalt.length, true);
+    kopf.setUint16(26, name.length, true);
+    kopf.setUint16(28, 0, true);
+
+    teile.push(new Uint8Array(kopf.buffer), name, inhalt);
+    verzeichnis.push({ name: name, crc: crc, groesse: inhalt.length, versatz: versatz });
+    versatz += 30 + name.length + inhalt.length;
+  }
+
+  const anfangVerzeichnis = versatz;
+  for (const e of verzeichnis) {
+    const k = new DataView(new ArrayBuffer(46));
+    k.setUint32(0, 0x02014b50, true);
+    k.setUint16(4, 20, true);
+    k.setUint16(6, 20, true);
+    k.setUint16(8, 0x0800, true);
+    k.setUint16(10, 0, true);
+    k.setUint16(12, jetzt.zeit, true);
+    k.setUint16(14, jetzt.datum, true);
+    k.setUint32(16, e.crc, true);
+    k.setUint32(20, e.groesse, true);
+    k.setUint32(24, e.groesse, true);
+    k.setUint16(28, e.name.length, true);
+    k.setUint32(42, e.versatz, true);
+    teile.push(new Uint8Array(k.buffer), e.name);
+    versatz += 46 + e.name.length;
+  }
+
+  const schluss = new DataView(new ArrayBuffer(22));
+  schluss.setUint32(0, 0x06054b50, true);
+  schluss.setUint16(8, verzeichnis.length, true);
+  schluss.setUint16(10, verzeichnis.length, true);
+  schluss.setUint32(12, versatz - anfangVerzeichnis, true);
+  schluss.setUint32(16, anfangVerzeichnis, true);
+  teile.push(new Uint8Array(schluss.buffer));
+
+  return new Blob(teile, { type: "application/zip" });
+}
+
+async function zipLesen(datei) {
+  const bytes = new Uint8Array(await datei.arrayBuffer());
+  const sicht = new DataView(bytes.buffer);
+  const leser = new TextDecoder();
+
+  // Das Schlussstück steht am Ende der Datei.
+  let schluss = -1;
+  for (let i = bytes.length - 22; i >= 0 && i > bytes.length - 65558; i--) {
+    if (sicht.getUint32(i, true) === 0x06054b50) { schluss = i; break; }
+  }
+  if (schluss < 0) throw new Error("Das sieht nicht nach einer Sicherung aus.");
+
+  const anzahl = sicht.getUint16(schluss + 10, true);
+  let stelle = sicht.getUint32(schluss + 16, true);
+  const inhalt = {};
+
+  for (let i = 0; i < anzahl; i++) {
+    if (sicht.getUint32(stelle, true) !== 0x02014b50) break;
+    const art       = sicht.getUint16(stelle + 10, true);
+    const groesse   = sicht.getUint32(stelle + 20, true);
+    const namenLang = sicht.getUint16(stelle + 28, true);
+    const extraLang = sicht.getUint16(stelle + 30, true);
+    const notizLang = sicht.getUint16(stelle + 32, true);
+    const ort       = sicht.getUint32(stelle + 42, true);
+    const name      = leser.decode(bytes.subarray(stelle + 46, stelle + 46 + namenLang));
+
+    if (art !== 0) throw new Error("Diese Sicherung ist zusammengepackt und kann hier nicht gelesen werden.");
+
+    const nl = sicht.getUint16(ort + 26, true);
+    const el = sicht.getUint16(ort + 28, true);
+    const anfang = ort + 30 + nl + el;
+    inhalt[name] = bytes.subarray(anfang, anfang + groesse);
+
+    stelle += 46 + namenLang + extraLang + notizLang;
+  }
+  return inhalt;
+}
+
+
+/* ---------- Herunterladen und Weitergeben ---------------------- */
+
+function herunterladen(datei) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(datei);
+  a.download = datei.name;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 20000);
+}
+
+async function weitergeben(datei, titel) {
+  if (navigator.canShare && navigator.canShare({ files: [datei] })) {
+    try {
+      await navigator.share({ files: [datei], title: titel });
+      return "geteilt";
+    } catch (e) {
+      if (e && e.name === "AbortError") return "abgebrochen";
+    }
+  }
+  herunterladen(datei);
+  return "geladen";
+}
+
+function grobeGroesse() {
+  let summe = 0;
+  antworten.forEach(function (a) {
+    summe += a.blob ? a.blob.size : (a.text ? a.text.length : 0);
+  });
+  if (summe < 1024 * 1024) return Math.max(1, Math.round(summe / 1024)) + " KB";
+  return (summe / (1024 * 1024)).toFixed(1).replace(".", ",") + " MB";
+}
+
+
+/* ---------- Der Bildschirm dazu -------------------------------- */
+
+function sicherung() {
+  zeige("Sichern", startseite);
+  buehne.append(el("h2", null, "Sichern und weitergeben"));
+
+  buehne.append(hinweisKarte("Alles bleibt bei dir",
+    "Deine Aufnahmen liegen nur auf diesem Gerät. Niemand kann sie sehen, solange du sie nicht selbst weitergibst. Das heißt aber auch: Wenn das Gerät verloren geht oder der Browser aufgeräumt wird, sind sie weg. Mach deshalb ab und zu eine Sicherung."));
+
+  const leer = antworten.length === 0;
+
+  if (leer) {
+    // Auch auf einem leeren Gerät muss das Zurückholen gehen —
+    // gerade dann braucht man es.
+    buehne.append(el("div", "leer-text", "Auf diesem Gerät ist noch nichts erzählt. Wenn du eine Sicherung hast, kannst du sie hier zurückholen."));
+  } else {
+    const stand = el("p", null, antworten.length === 1
+      ? "1 Antwort, ungefähr " + grobeGroesse()
+      : antworten.length + " Antworten, ungefähr " + grobeGroesse());
+    stand.style.color = "var(--gedaempft)";
+    buehne.append(stand);
+  }
+
+  const reihe = el("div", "reihe");
+
+  const sichern = el("button", "gross-knopf", "Alles sichern");
+  if (leer) sichern.classList.add("versteckt");
+  sichern.onclick = async function () {
+    sichern.disabled = true;
+    sichern.textContent = "Wird zusammengestellt …";
+    try {
+      const paket = await sicherungBauen();
+      const wie = await weitergeben(paket, "Meine Geschichten");
+      hinweisZeigen(wie === "geteilt"
+        ? "Die Sicherung ist weitergegeben."
+        : wie === "abgebrochen"
+          ? "Abgebrochen — es wurde nichts weitergegeben."
+          : "Die Sicherung liegt jetzt bei deinen heruntergeladenen Dateien.");
+    } catch (e) {
+      hinweisZeigen("Das hat nicht geklappt: " + e.message);
+    }
+    sichern.disabled = false;
+    sichern.textContent = "Alles sichern";
+  };
+
+  const zurueckholen = el("button", leer ? "gross-knopf" : "still-knopf", "Sicherung zurückholen");
+  const feld = document.createElement("input");
+  feld.type = "file";
+  feld.accept = ".zip,application/zip";
+  feld.className = "versteckt";
+  zurueckholen.onclick = function () { feld.click(); };
+  feld.onchange = async function () {
+    const datei = feld.files && feld.files[0];
+    if (!datei) return;
+    try {
+      const wieviel = await sicherungEinlesen(datei);
+      hinweisZeigen(wieviel === 0
+        ? "Diese Sicherung war schon vollständig da — es hat sich nichts geändert."
+        : wieviel + (wieviel === 1 ? " Antwort zurückgeholt." : " Antworten zurückgeholt."));
+    } catch (e) {
+      hinweisZeigen("Das hat nicht geklappt: " + e.message);
+    }
+    feld.value = "";
+  };
+
+  reihe.append(sichern, zurueckholen, feld);
+  buehne.append(reihe);
+}
+
+async function sicherungBauen() {
+  const dateien = [];
+  const verzeichnis = [];
+
+  antworten.slice().sort(function (a, b) { return a.wann - b.wann; })
+    .forEach(function (a, i) {
+      const datei = alsDatei(a, i + 1);
+      dateien.push({ name: datei.name, blob: datei });
+      verzeichnis.push({
+        id: a.id, frageId: a.frageId, frageText: a.frageText,
+        art: a.art, typ: a.typ || "", wann: a.wann,
+        datei: datei.name, text: a.art === "text" ? a.text : undefined
+      });
+    });
+
+  const notiz =
+    "Meine Geschichten\n\n" +
+    "Diese Sicherung enthält " + antworten.length + " Antworten.\n" +
+    "Die Aufnahmen liegen als gewöhnliche Dateien daneben und lassen sich\n" +
+    "einfach anklicken. In daten.json steht, welche Datei zu welcher Frage gehört.\n\n" +
+    "Zurückholen in der App: Sichern und weitergeben → Sicherung zurückholen.\n";
+
+  dateien.push({ name: "daten.json", blob: new Blob([JSON.stringify(verzeichnis, null, 2)], { type: "application/json" }) });
+  dateien.push({ name: "lies-mich.txt", blob: new Blob([notiz], { type: "text/plain" }) });
+
+  const zip = await zipBauen(dateien);
+  const heute = new Date().toISOString().slice(0, 10);
+  return new File([zip], "meine-geschichten-" + heute + ".zip", { type: "application/zip" });
+}
+
+async function sicherungEinlesen(datei) {
+  const inhalt = await zipLesen(datei);
+  if (!inhalt["daten.json"]) throw new Error("In dieser Datei fehlt daten.json.");
+
+  const verzeichnis = JSON.parse(new TextDecoder().decode(inhalt["daten.json"]));
+  let neu = 0;
+
+  for (const e of verzeichnis) {
+    if (antworten.some(function (a) { return a.id === e.id; })) continue;
+
+    const eintrag = {
+      id: e.id, frageId: e.frageId, frageText: e.frageText,
+      art: e.art, wann: e.wann
+    };
+    if (e.art === "text") {
+      eintrag.text = e.text || "";
+    } else {
+      const bytes = inhalt[e.datei];
+      if (!bytes) continue;                       // Datei fehlt in der Sicherung
+      eintrag.blob = new Blob([bytes], { type: e.typ || "" });
+      eintrag.typ = e.typ || "";
+    }
+    await sichern(eintrag);
+    neu++;
+  }
+  return neu;
+}
+
+
+/* ---------- Los geht's ----------------------------------------- */
+
+alleLaden().then(startseite);
+</script>
+</body>
+</html>
