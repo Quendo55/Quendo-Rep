@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0b6a72">
+<meta name="description" content="Morgens anfangen, abends aufhören — ohne dass etwas verlorengeht.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%230b6a72%22/%3E%3Cpath%20d%3D%22M9%2010h14M9%2016h14M9%2022h9%22%20stroke%3D%22%23eef3f3%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E" type="image/svg+xml">
+<title>Quendolinas Tageszettel</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+
+<style>
+/* =============================================================
+   Farben aus der Familienkiste selbst: das Petrol der Hülle als
+   Leitfarbe, dazu Neutraltöne mit einem Stich ins Grünblaue.
+   Die Schriften sind kein Zierrat — Atkinson Hyperlegible wurde
+   für Menschen mit schwächerem Sehen entworfen.
+   ============================================================= */
+:root {
+  --grund:      #eef3f3;
+  --karte:      #ffffff;
+  --karte-satt: #e3eded;
+  --text:       #10262a;
+  --gedaempft:  #4a6468;
+  --linie:      #cfdedf;
+  --akzent:     #0b6a72;
+  --akzent-satt:#084e54;
+  --akzent-text:#ffffff;
+  --warm:       #8a3a4e;
+  --schatten:   rgba(11, 60, 66, .10);
+
+  --breite:     680px;
+  --gross:      19px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --grund:      #0e1c1e;
+    --karte:      #14282b;
+    --karte-satt: #1b3438;
+    --text:       #e4f0f0;
+    --gedaempft:  #9db8bb;
+    --linie:      #2a4649;
+    --akzent:     #63c8cf;
+    --akzent-satt:#8fdde2;
+    --akzent-text:#062227;
+    --warm:       #e4899b;
+    --schatten:   rgba(0, 0, 0, .45);
+  }
+}
+
+:root[data-theme="dark"] {
+  --grund:      #0e1c1e;
+  --karte:      #14282b;
+  --karte-satt: #1b3438;
+  --text:       #e4f0f0;
+  --gedaempft:  #9db8bb;
+  --linie:      #2a4649;
+  --akzent:     #63c8cf;
+  --akzent-satt:#8fdde2;
+  --akzent-text:#062227;
+  --warm:       #e4899b;
+  --schatten:   rgba(0, 0, 0, .45);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 0 64px;
+  background: var(--grund);
+  color: var(--text);
+  font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  font-size: var(--gross);
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+.seite { max-width: var(--breite); margin: 0 auto; padding: 0 20px; }
+
+/* --- Kopf ----------------------------------------------------- */
+header { padding: 44px 0 8px; }
+h1 {
+  font-family: Newsreader, Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  font-size: clamp(34px, 9vw, 46px);
+  line-height: 1.1;
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.unterzeile { margin: 0; color: var(--gedaempft); font-size: 20px; max-width: 34em; }
+
+/* --- Die eine Regel ------------------------------------------- */
+.regel {
+  margin: 32px 0 0;
+  padding: 22px 24px;
+  background: var(--akzent);
+  color: var(--akzent-text);
+  border-radius: 14px;
+  box-shadow: 0 3px 14px var(--schatten);
+}
+.regel p { margin: 0; font-size: 21px; line-height: 1.5; }
+.regel p + p { margin-top: 12px; font-size: 18px; opacity: .92; }
+.regel strong { font-weight: 700; }
+
+/* --- Abschnitte ----------------------------------------------- */
+section { margin-top: 48px; }
+h2 {
+  font-family: Newsreader, Georgia, serif;
+  font-weight: 600;
+  font-size: 30px;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+h2 .zeit {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--akzent);
+}
+.abschnitt-text { margin: 0 0 22px; color: var(--gedaempft); }
+
+/* --- Nummerierte Schritte: hier ist die Reihenfolge echt ------- */
+ol.schritte { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+ol.schritte > li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
+  align-items: start;
+  background: var(--karte);
+  border: 1px solid var(--linie);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 5px var(--schatten);
+}
+ol.schritte > li::before {
+  content: counter(schritt);
+  counter-increment: schritt;
+  grid-row: span 2;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--karte-satt);
+  color: var(--akzent);
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+ol.schritte { counter-reset: schritt; }
+ol.schritte b { display: block; font-size: 20px; margin-bottom: 2px; }
+ol.schritte .dazu { color: var(--gedaempft); font-size: 17px; }
+
+/* --- Der Satz zum Kopieren ------------------------------------ */
+.satz {
+  margin-top: 14px;
+  background: var(--karte-satt);
+  border-left: 5px solid var(--akzent);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.satz q {
+  display: block;
+  font-size: 18px;
+  line-height: 1.55;
+  quotes: "„" "“";
+}
+.kopieren {
+  margin-top: 14px;
+  min-height: 48px;
+  padding: 12px 20px;
+  font: 700 17px "Atkinson Hyperlegible", sans-serif;
+  color: var(--akzent-text);
+  background: var(--akzent);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.kopieren:hover { background: var(--akzent-satt); }
+.kopieren:focus-visible { outline: 3px solid var(--warm); outline-offset: 3px; }
+
+/* --- Die Seiten ----------------------------------------------- */
+.seiten { display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.seiten a {
+  display: block;
+  min-height: 48px;
+  background: var(--karte);
+  border: 1px solid var(--linie);
+  border-left: 7px solid var(--strich, var(--akzent));
+  border-radius: 12px;
+  padding: 16px 20px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 5px var(--schatten);
+}
+.seiten a:hover { border-color: var(--akzent); border-left-color: var(--strich, var(--akzent)); }
+.seiten a:focus-visible { outline: 3px solid var(--akzent); outline-offset: 2px; }
+.seiten b { display: block; font-size: 20px; color: var(--akzent); }
+.seiten .haupt b { font-size: 23px; }
+.seiten span { display: block; color: var(--gedaempft); font-size: 17px; }
+.seiten .adresse {
+  font-size: 15px;
+  color: var(--gedaempft);
+  word-break: break-all;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Wenn etwas fehlt ----------------------------------------- */
+dl.hilfe { margin: 0; display: flex; flex-direction: column; gap: 20px; }
+dl.hilfe dt { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+dl.hilfe dd { margin: 0; color: var(--gedaempft); }
+dl.hilfe dd q { quotes: "„" "“"; color: var(--text); font-weight: 700; }
+
+/* --- Fuß ------------------------------------------------------ */
+footer {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid var(--linie);
+  color: var(--gedaempft);
+  font-size: 16px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kopieren, .seiten a { transition: background .15s, border-color .15s; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="seite">
+
+<header>
+  <h1>Quendolinas Tageszettel</h1>
+  <p class="unterzeile">Morgens anfangen, abends aufhören — ohne dass etwas
+     verlorengeht. Vier Schritte am Morgen, vier am Abend, und darunter
+     alle deine Seiten.</p>
+</header>
+
+<div class="regel">
+  <p><strong>Die eine Regel:</strong> Was abends nicht auf GitHub liegt,
+     ist am nächsten Morgen nicht da.</p>
+  <p>Jeder neue Chat holt sich eine frische Kopie von GitHub. Alles, was nur
+     im Gespräch stand, kommt nicht mit. Deshalb der Abendschritt — der ist
+     der wichtigste von allen.</p>
+</div>
+
+<section>
+  <h2>Morgens <span class="zeit">Anfangen</span></h2>
+  <p class="abschnitt-text">Dauert eine Minute. Erst danach mit der eigentlichen
+     Arbeit beginnen.</p>
+
+  <ol class="schritte">
+    <li>
+      <div>
+        <b>Laptop an, Chat öffnen</b>
+        <div class="dazu">Nur der Chat — <strong>kein Terminal, keine
+          Befehle.</strong> Das schwarze Fenster brauchst du nie; Prüfen,
+          Hochladen und Veröffentlichen erledige ich.</div>
+        <div class="dazu">Ein neuer Chat ist völlig in Ordnung — sogar besser,
+          weil er sparsamer ist. Er weiß nur nichts von gestern, deshalb
+          Schritt 2.</div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <b>Diesen Satz hineinschreiben</b>
+        <div class="dazu">Er bringt Claude in einem Zug auf den Stand: wer du
+          bist, woran wir arbeiten, und wo er nachlesen kann.</div>
+        <div class="satz">
+          <q id="morgensatz">Ich bin Quendolina. Wir arbeiten im Repo
+            juliusxkaiser/juliuskaiser-x-quendolina. Lies bitte CLAUDE.md und
+            WEBSITE.md und sag mir dann, was zuletzt passiert ist und ob noch
+            etwas offen ist.</q>
+          <button class="kopieren" type="button" id="kopierknopf">Satz kopieren</button>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <b>Die Antwort abwarten</b>
+        <div class="dazu">Claude sagt dir, was zuletzt hochgeladen wurde und ob
+          irgendwo noch etwas offen liegt. Steht dort etwas Offenes, zuerst das
+          klären — nicht darüber hinwegarbeiten.</div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <b>Jetzt loslegen</b>
+        <div class="dazu">Ab hier ganz normal weiterarbeiten. Sag einfach, was
+          du dir vorstellst.</div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Abends <span class="zeit">Aufhören</span></h2>
+  <p class="abschnitt-text">Bevor der Laptop zugeht. Auch wenn etwas noch
+     unfertig ist — unfertig hochgeladen lässt sich weiterbauen, verlorene
+     Arbeit nicht.</p>
+
+  <ol class="schritte">
+    <li>
+      <div>
+        <b>Feierabend ansagen</b>
+        <div class="dazu">Ein Satz genügt.</div>
+        <div class="satz">
+          <q id="abendsatz">Feierabend — bitte alles prüfen, hochladen und
+            veröffentlichen.</q>
+          <button class="kopieren" type="button" id="kopierknopf2">Satz kopieren</button>
+        </div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <b>Auf „Alles durch" warten</b>
+        <div class="dazu">Claude lässt erst alle Prüfungen laufen, lädt dann
+          hoch und sagt, dass es oben ist. Kommt eine Fehlermeldung statt
+          „Alles durch", noch nicht zumachen.</div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <b>Kurz nachsehen</b>
+        <div class="dazu">Familienkiste öffnen, ganz nach unten scrollen. Dort
+          steht „Stand dieser Seite" mit Datum und Uhrzeit. Steht dort heute,
+          ist alles angekommen.</div>
+      </div>
+    </li>
+
+    <li>
+      <div>
+        <b>Laptop zu</b>
+        <div class="dazu">Fertig. Morgen früh wieder bei Schritt 1.</div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <h2>Deine Seiten <span class="zeit">Immer aktuell</span></h2>
+  <p class="abschnitt-text">Ich muss dir abends nichts schicken. Diese Adressen
+     zeigen von selbst immer den neuesten Stand — jede Veröffentlichung ist
+     nach etwa einer Minute dort zu sehen. Einmal auf dem Handy zum
+     Startbildschirm hinzufügen, dann sind sie wie richtige Apps.
+     Das Passwort kennst du; es steht absichtlich nirgends geschrieben.</p>
+
+  <ul class="seiten">
+    <li>
+      <a class="haupt" href="https://jkxq-familie.web.app" style="--strich: var(--akzent)">
+        <b>Familienkiste — alles zusammen</b>
+        <span>Alle vier Apps in einer. Unten umschalten. Das ist die Adresse
+          zum Verschicken.</span>
+        <span class="adresse">jkxq-familie.web.app</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://jkxq-familie.web.app/zusammen/erzaehl-mal/" style="--strich: var(--warm)">
+        <b>Erzähl mal</b>
+        <span>Fragen an Oma und Opa — als Video, Ton, geschrieben oder mit
+          Foto. Mit dem Buch-Knopf.</span>
+        <span class="adresse">jkxq-familie.web.app/zusammen/erzaehl-mal/</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://jkxq-familie.web.app/zusammen/medikamente/" style="--strich: var(--warm)">
+        <b>Meine Medikamente</b>
+        <span>Morgens, mittags, abends, zur Nacht — antippen und abhaken.
+          Zettel für Arzt und Apotheke.</span>
+        <span class="adresse">jkxq-familie.web.app/zusammen/medikamente/</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://jkxq-familie.web.app/zusammen/einkaufsliste/" style="--strich: #3f6b3a">
+        <b>Einkaufsliste</b>
+        <span>Vorschläge beim Tippen, eigene Sachen jederzeit dazu.</span>
+        <span class="adresse">jkxq-familie.web.app/zusammen/einkaufsliste/</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://jkxq-familie.web.app/zusammen/todo-liste/" style="--strich: var(--akzent)">
+        <b>Todo-Liste</b>
+        <span>Was ansteht, zum Abhaken. Wichtiges mit einem Stern nach oben.</span>
+        <span class="adresse">jkxq-familie.web.app/zusammen/todo-liste/</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://jkxq-familie.web.app/quendolina/liste" style="--strich: var(--gedaempft)">
+        <b>Meine Liste</b>
+        <span>Deine allererste App vom 27. August. Liegt weiterhin für sich.</span>
+        <span class="adresse">jkxq-familie.web.app/quendolina/liste</span>
+      </a>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Wenn etwas fehlt</h2>
+  <p class="abschnitt-text">Drei Dinge sind uns wirklich passiert. So kommst du
+     jedes Mal weiter.</p>
+
+  <dl class="hilfe">
+    <dt>Die Seite sieht alt aus</dt>
+    <dd>Ganz unten steht das Datum. Ist es zu alt, zeigt der Browser noch eine
+      alte Fassung: Seite einmal nach unten ziehen und loslassen. Wirst du dabei
+      nach dem Passwort gefragt, ist sie frisch geholt.</dd>
+
+    <dt>Eine Änderung ist verschwunden</dt>
+    <dd>Wahrscheinlich lag sie nur als Artefakt auf claude.ai und nie im
+      Projekt. Sag: <q>such in meinen Artefakten auf claude.ai nach dem, was
+      an dem Tag gebaut wurde</q>. Genau so haben wir deine Arbeit vom
+      31. August wiedergefunden.</dd>
+
+    <dt>Claude baut etwas als Artefakt</dt>
+    <dd>Ein Artefakt ist nur eine Vorschau, keine Veröffentlichung. Sag dann
+      immer dazu: <q>bitte auch ins Projekt übernehmen und veröffentlichen</q>.
+      Sonst steht es nicht auf deinen Seiten.</dd>
+  </dl>
+</section>
+
+<footer>
+  <p>Diesen Zettel findest du jederzeit über die Familienkiste — ganz unten
+     auf der Begrüßung steht der Weg hierher.</p>
+  <p>Wenn du die Seiten doch einmal als Datei in der Hand haben willst — etwa
+     zum Verschicken oder für unterwegs ohne Internet — sag einfach
+     <q>schick mir die Apps als Dateien</q>. Nötig ist es nicht, die Adressen
+     oben sind immer aktuell.</p>
+</footer>
+
+</div>
+
+<script>
+/* Kopieren, mit ehrlicher Rückmeldung. Klappt es nicht — manche Browser
+   erlauben es nicht —, sagt der Knopf, was stattdessen zu tun ist. */
+function kopierenEinrichten(knopfId, satzId) {
+  const knopf = document.getElementById(knopfId);
+  const satz  = document.getElementById(satzId);
+  if (!knopf || !satz) return;
+  const urspruenglich = knopf.textContent;
+
+  knopf.addEventListener("click", async function () {
+    const text = satz.textContent.replace(/\s+/g, " ").trim();
+    try {
+      await navigator.clipboard.writeText(text);
+      knopf.textContent = "Kopiert";
+    } catch (e) {
+      knopf.textContent = "Bitte von Hand markieren";
+    }
+    setTimeout(function () { knopf.textContent = urspruenglich; }, 3000);
+  });
+}
+
+kopierenEinrichten("kopierknopf", "morgensatz");
+kopierenEinrichten("kopierknopf2", "abendsatz");
+</script>
+
+</body>
+</html>
