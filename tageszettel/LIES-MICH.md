@@ -6,6 +6,10 @@ Repo nicht.
 - `index.html` — der Zettel zum Aufschlagen. Doppelt antippen genügt, er geht
   im Browser auf. Ohne Anmeldung, ohne Passwort.
 - `TAGESABLAUF.md` — derselbe Inhalt zum Lesen im Repo.
+- `tagebuch.html` — der Zettel zum **Tagebuch**, seit dem 7. September 2026.
+  Vier Schritte für einen Eintrag, die vier Arten, und was du über das
+  Tagebuch wissen solltest. Diese Seite holt nichts von außen — auch keine
+  Schrift.
 
 ## Warum die Kopie hier liegt
 
@@ -32,7 +36,8 @@ Der wichtigste Satz auf dem Zettel, damit ein neuer Chat weiß, wo er ist:
 gibt, stimmen sie. Ändert Julius etwas daran, stimmen sie vielleicht nicht
 mehr — dann ist es diese Datei, die nachgezogen werden muss.
 
-**Der Zettel holt seine Schriften von Google** (`fonts.googleapis.com`).
+**Der große Zettel holt seine Schriften von Google** (`fonts.googleapis.com`);
+`tagebuch.html` tut das ausdrücklich nicht.
 Das ist der Grund, warum er so gut lesbar ist — die Schrift *Atkinson
 Hyperlegible* ist eigens für schwaches Sehen gemacht. Dafür wird beim
 Öffnen eine Verbindung zu Google aufgebaut. Auf deinem eigenen Gerät und

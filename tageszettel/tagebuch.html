@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Tagebuch — dein Zettel</title>
+<meta name="theme-color" content="#1c5a86">
+<meta name="description" content="Der Zettel zum Tagebuch: wie ein Eintrag entsteht, was auf dem Gerät bleibt und die beiden Sätze zum Weiterbauen.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%231c5a86%22/%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23eef4f8%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M8%206h13a2%202%200%200%201%202%202v18H10a2%202%200%200%201-2-2z%22/%3E%3Cpath%20d%3D%22M8%2022h15M13%2011h5%22/%3E%3C/g%3E%3C/svg%3E" type="image/svg+xml">
+
+<style>
+/* =============================================================
+   DER ZETTEL ZUM TAGEBUCH
+
+   Anders als der große Tageszettel holt diese Seite ihre Schrift
+   NICHT von Google, sondern nimmt die des Geräts. Damit baut sie
+   beim Öffnen keine Verbindung nach außen auf — passend zu einer
+   App, deren ganzer Sinn ist, dass nichts das Gerät verlässt.
+
+   Die Farbe ist die des Tagebuchs: Tintenblau. Man soll auf den
+   ersten Blick sehen, wozu dieser Zettel gehört.
+   ============================================================= */
+:root {
+  --leinen:    #f6f1e7;
+  --karte:     #fffdf8;
+  --tinte:     #241f1a;
+  --gedaempft: #5b5148;
+  --linie:     #ddd2c0;
+  --blau:      #1c5a86;
+  --blau-hell: #e3edf4;
+  --schatten:  rgba(60, 45, 30, .16);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --leinen:    #1b1815;
+    --karte:     #262119;
+    --tinte:     #f4ece0;
+    --gedaempft: #bdb0a0;
+    --linie:     #3d352b;
+    --blau:      #6fbdea;
+    --blau-hell: #1c2a33;
+    --schatten:  rgba(0, 0, 0, .5);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 30px 0 60px;
+  background: var(--leinen);
+  color: var(--tinte);
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 21px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+.seite { max-width: 660px; margin: 0 auto; padding: 0 18px; }
+
+h1, h2 {
+  font-family: Georgia, "Times New Roman", "Noto Serif", serif;
+  font-weight: 700;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+h1 { font-size: 38px; margin: 0 0 6px; }
+h2 { font-size: 27px; margin: 40px 0 14px; }
+
+.zierlinie {
+  width: 90px; height: 5px;
+  margin: 18px 0 20px;
+  border-radius: 3px;
+  background: var(--blau);
+}
+
+.vorwort { color: var(--gedaempft); font-size: 19px; margin: 0 0 8px; }
+
+a { color: var(--blau); }
+
+/* Der Hinweis ganz oben: welcher Zettel gilt wofür. */
+.oben {
+  padding: 16px 20px;
+  margin-bottom: 8px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-left: 8px solid var(--blau);
+  border-radius: 16px;
+  font-size: 19px;
+  color: var(--gedaempft);
+}
+
+/* Die Schritte: eine Zahl, ein Satz. */
+ol.schritte { list-style: none; margin: 0; padding: 0; counter-reset: schritt; }
+ol.schritte > li {
+  counter-increment: schritt;
+  position: relative;
+  padding: 4px 0 22px 62px;
+}
+ol.schritte > li::before {
+  content: counter(schritt);
+  position: absolute;
+  left: 0; top: 0;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700;
+  color: #fffdf8;
+  background: var(--blau);
+  border-radius: 50%;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) ol.schritte > li::before { color: #241f1a; }
+}
+ol.schritte b { display: block; }
+ol.schritte span { color: var(--gedaempft); font-size: 19px; }
+
+/* Die vier Arten als Kärtchen. */
+.arten {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 0 0 10px;
+}
+.art {
+  padding: 16px 18px;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--schatten);
+}
+.art b { display: block; font-size: 21px; color: var(--blau); }
+.art span { font-size: 18px; color: var(--gedaempft); }
+
+/* Die Sätze zum Abschreiben. */
+.satz {
+  padding: 18px 20px;
+  margin: 14px 0 22px;
+  background: var(--blau-hell);
+  border: 2px solid var(--linie);
+  border-left: 8px solid var(--blau);
+  border-radius: 16px;
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.wichtig {
+  padding: 18px 22px;
+  margin: 22px 0;
+  background: var(--karte);
+  border: 3px solid var(--blau);
+  border-radius: 18px;
+}
+.wichtig b { display: block; font-size: 22px; margin-bottom: 6px; }
+
+.adresse {
+  display: block;
+  padding: 18px 20px;
+  margin: 14px 0;
+  background: var(--karte);
+  border: 2px solid var(--linie);
+  border-radius: 16px;
+  text-decoration: none;
+  color: var(--tinte);
+  box-shadow: 0 2px 8px var(--schatten);
+}
+.adresse:hover { border-color: var(--blau); }
+.adresse b { display: block; font-size: 22px; color: var(--blau); }
+.adresse span { display: block; font-size: 18px; color: var(--gedaempft); overflow-wrap: anywhere; }
+
+.fuss {
+  margin-top: 44px;
+  padding-top: 20px;
+  border-top: 2px solid var(--linie);
+  font-size: 18px;
+  color: var(--gedaempft);
+}
+</style>
+</head>
+
+<body>
+<div class="seite">
+
+<h1>Tagebuch — dein Zettel</h1>
+<div class="zierlinie"></div>
+
+<p class="oben">Der große <a href="index.html">Tageszettel</a> gilt unverändert
+weiter — morgens vier Schritte, abends vier. Dieser Zettel hier ist nur für
+das Tagebuch: wie ein Eintrag entsteht und was du davon wissen solltest.</p>
+
+<h2>Ein Eintrag, in vier Schritten</h2>
+
+<ol class="schritte">
+  <li>
+    <b>Das Tagebuch aufmachen.</b>
+    <span>Entweder in der Familienkiste unten auf <i>Tagebuch</i> tippen oder
+      die Adresse weiter unten direkt öffnen.</span>
+  </li>
+  <li>
+    <b>„Für heute etwas eintragen" antippen.</b>
+    <span>War der Tag schon vorbei, den du meinst, nimm stattdessen
+      „Ein anderer Tag …" und such das Datum aus.</span>
+  </li>
+  <li>
+    <b>Aussuchen, wie du es festhalten willst.</b>
+    <span>Vier Knöpfe stehen da: Schreiben, Foto, Erzählen, Video.</span>
+  </li>
+  <li>
+    <b>Fertig — und wenn du magst, noch etwas.</b>
+    <span>Danach stehst du wieder beim Tag, und die vier Knöpfe stehen wieder
+      da. An einem Tag darf alles nebeneinander stehen, so oft du willst.</span>
+  </li>
+</ol>
+
+<h2>Die vier Arten</h2>
+
+<div class="arten">
+  <div class="art">
+    <b>Schreiben</b>
+    <span>Ein Satz genügt. Geschriebenes lässt sich später nachbessern —
+      alles andere nicht.</span>
+  </div>
+  <div class="art">
+    <b>Foto</b>
+    <span>Ein Bild machen oder eines aussuchen, das schon auf dem Gerät
+      liegt. Das Handy fragt dich, was davon.</span>
+  </div>
+  <div class="art">
+    <b>Erzählen</b>
+    <span>Sprechen statt tippen. Du hörst es dir danach an und entscheidest
+      dann, ob es bleibt.</span>
+  </div>
+  <div class="art">
+    <b>Video</b>
+    <span>Dasselbe mit Bild. Videos brauchen viel Platz auf dem Gerät —
+      unten im Tagebuch steht, wie viel schon belegt ist.</span>
+  </div>
+</div>
+
+<h2>Drei Dinge, die du wissen solltest</h2>
+
+<div class="wichtig">
+  <b>Ton und Video gehen nur über die Adresse.</b>
+  Wenn du das Tagebuch als Datei vom Rechner öffnest, sperrt der Browser
+  Kamera und Mikrofon — dann stehen nur Schreiben und Foto zur Verfügung.
+  Über <i>jkxq-familie.web.app</i> geht alles. Das ist keine Einstellung, die
+  man umlegen kann; so ist der Browser gebaut.
+</div>
+
+<div class="wichtig">
+  <b>Niemand sieht dein Tagebuch außer dir.</b>
+  Es wird nirgendwohin geschickt und liegt auf keinem Server — auch nicht
+  bei mir. Es liegt in dem Browser, in dem du es geschrieben hast. Auf einem
+  anderen Gerät ist es deshalb nicht da.
+</div>
+
+<div class="wichtig">
+  <b>„Website-Daten löschen" löscht auch das Tagebuch.</b>
+  Wenn du im Browser den Verlauf aufräumst und dabei die Website-Daten mit
+  wegwirfst, sind die Einträge weg. Eine Sicherung zum Mitnehmen gibt es
+  noch nicht — wenn du eine möchtest, sag es, dann bauen wir sie.
+</div>
+
+<h2>Deine Adresse</h2>
+
+<a class="adresse" href="https://jkxq-familie.web.app/zusammen/tagebuch/">
+  <b>Tagebuch</b>
+  <span>jkxq-familie.web.app/zusammen/tagebuch/</span>
+</a>
+
+<a class="adresse" href="https://jkxq-familie.web.app">
+  <b>Familienkiste — alles zusammen</b>
+  <span>jkxq-familie.web.app — unten in der Leiste steht das Tagebuch ganz
+    rechts.</span>
+</a>
+
+<p class="vorwort">Auf dem Handy einmal zum Startbildschirm hinzufügen, dann
+ist es wie eine richtige App.</p>
+
+<h2>Wenn du am Tagebuch weiterbauen willst</h2>
+
+<p class="vorwort">Dieselben zwei Sätze wie immer — nur sagt der erste
+zusätzlich, worum es heute geht.</p>
+
+<p><b>Morgens:</b></p>
+<div class="satz">Ich bin Quendolina. Wir arbeiten im Repo
+juliusxkaiser/juliuskaiser-x-quendolina, heute am Tagebuch. Lies bitte
+CLAUDE.md, WEBSITE.md und zusammen/tagebuch/README.md und sag mir dann, was
+zuletzt passiert ist und ob noch etwas offen ist.</div>
+
+<p><b>Abends:</b></p>
+<div class="satz">Feierabend — bitte alles prüfen, hochladen und
+veröffentlichen.</div>
+
+<p class="vorwort">Und die eine Regel gilt hier wie überall:
+<b>was abends nicht auf GitHub liegt, ist am nächsten Morgen nicht da.</b></p>
+
+<p class="fuss">Angelegt am 7. September 2026, zusammen mit der App. Diese
+Seite holt nichts von außen — keine Schrift, kein Bild, nichts. Sie nimmt die
+Schrift deines Geräts.</p>
+
+</div>
+</body>
+</html>
