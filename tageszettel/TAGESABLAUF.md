@@ -74,7 +74,7 @@ sie wie richtige Apps. Das Passwort steht absichtlich nirgends geschrieben.
 | **Einkaufsliste** — Vorschläge beim Tippen | https://jkxq-familie.web.app/zusammen/einkaufsliste/ |
 | **Todo-Liste** — zum Abhaken | https://jkxq-familie.web.app/zusammen/todo-liste/ |
 | **Timer** — Zeit antippen, fertig | https://jkxq-familie.web.app/zusammen/timer/ |
-| **Tagebuch** — was heute war: geschrieben, Foto, Ton, Video | https://jkxq-familie.web.app/zusammen/tagebuch/ |
+| **Tagebuch** — was heute war: geschrieben, Foto, Ton, Video | https://jkxq-familie.web.app/tagebuch/ |
 | **Der Zettel zum Tagebuch** — vier Schritte für einen Eintrag | https://jkxq-familie.web.app/zettel/tagebuch |
 
 ## Wenn etwas fehlt
