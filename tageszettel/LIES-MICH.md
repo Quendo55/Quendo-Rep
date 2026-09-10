@@ -6,10 +6,20 @@ Repo nicht.
 - `index.html` — der Zettel zum Aufschlagen. Doppelt antippen genügt, er geht
   im Browser auf. Ohne Anmeldung, ohne Passwort.
 - `TAGESABLAUF.md` — derselbe Inhalt zum Lesen im Repo.
-- `tagebuch.html` — der Zettel zum **Tagebuch**, seit dem 7. September 2026.
-  Vier Schritte für einen Eintrag, die vier Arten, und was du über das
-  Tagebuch wissen solltest. Diese Seite holt nichts von außen — auch keine
-  Schrift.
+## Der Zettel zum Tagebuch liegt nicht mehr hier
+
+Vom 7. bis zum 10. September lag hier auch `tagebuch.html`. Diese Kopie ist
+**am 10. September entfernt** worden, und zwar aus einem guten Grund:
+
+Der Zettel zum Tagebuch liegt jetzt **beim Tagebuch selbst**, unter
+**https://jkxq-familie.web.app/tagebuch/zettel** — und die App findest du im
+Tagebuch unten über den Knopf „So geht das hier". Er verschwindet also nicht,
+wenn der große Tageszettel einmal weggeräumt wird; genau dagegen war die Kopie
+hier gedacht. Zwei Fassungen nebeneinander laufen mit der Zeit auseinander,
+und dann stimmt eine von beiden nicht mehr.
+
+Willst du trotzdem eine eigene Kopie zum Offline-Lesen, sag Bescheid — sie ist
+in der Versionsgeschichte und in einem Zug wieder da.
 
 ## Warum die Kopie hier liegt
 
