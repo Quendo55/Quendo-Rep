@@ -284,6 +284,16 @@ footer {
             etwas offen ist.</q>
           <button class="kopieren" type="button" id="kopierknopf">Satz kopieren</button>
         </div>
+        <div class="dazu">Arbeitest du am <strong>Tagebuch</strong>, nimm
+          diesen hier — er sagt zusätzlich, worum es heute geht, und nennt die
+          Datei, in der alles über das Tagebuch steht.</div>
+        <div class="satz">
+          <q id="tagebuchsatz">Ich bin Quendolina. Wir arbeiten im Repo
+            juliusxkaiser/juliuskaiser-x-quendolina, heute am Tagebuch. Lies
+            bitte CLAUDE.md, WEBSITE.md und tagebuch/README.md und sag mir dann,
+            was zuletzt passiert ist und ob noch etwas offen ist.</q>
+          <button class="kopieren" type="button" id="kopierknopf3">Satz kopieren</button>
+        </div>
       </div>
     </li>
 
@@ -490,6 +500,7 @@ function kopierenEinrichten(knopfId, satzId) {
 
 kopierenEinrichten("kopierknopf", "morgensatz");
 kopierenEinrichten("kopierknopf2", "abendsatz");
+kopierenEinrichten("kopierknopf3", "tagebuchsatz");
 </script>
 
 </body>

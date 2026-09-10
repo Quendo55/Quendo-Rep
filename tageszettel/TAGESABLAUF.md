@@ -34,6 +34,18 @@ wichtigste von allen.
    > WEBSITE.md und sag mir dann, was zuletzt passiert ist und ob noch etwas
    > offen ist.
 
+   **Am Tagebuch** nimm stattdessen diesen — er sagt zusätzlich, worum es
+   heute geht:
+
+   > Ich bin Quendolina. Wir arbeiten im Repo
+   > juliusxkaiser/juliuskaiser-x-quendolina, heute am Tagebuch. Lies bitte
+   > CLAUDE.md, WEBSITE.md und tagebuch/README.md und sag mir dann, was
+   > zuletzt passiert ist und ob noch etwas offen ist.
+
+   Dieser Satz stand bis zum 10. September 2026 auf dem Zettel zum Tagebuch.
+   Er ist hierher gezogen, weil das Tagebuch an Julius übergeben wird — dein
+   Arbeitsritual gehört nicht in eine App, die ihm gehört.
+
 3. **Die Antwort abwarten.** Claude sagt, was zuletzt hochgeladen wurde und ob
    irgendwo etwas offen liegt. Steht dort etwas Offenes, zuerst das klären —
    nicht darüber hinwegarbeiten.
